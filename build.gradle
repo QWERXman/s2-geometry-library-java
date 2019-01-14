@@ -6,6 +6,10 @@
  */
 
  apply plugin: 'java'
+ apply plugin: 'application'
+ apply plugin: 'pmd'
+
+ mainClassName = 'application.Main'
 
  repositories { 
 	mavenCentral()
@@ -14,16 +18,22 @@
  dependencies {
 	 compile 'com.google.guava:guava:27.0-jre'
  	 compile 'com.google.code.findbugs:jsr305:3.0.2'
-     testCompile 'junit:junit:3.8.2'
+         testCompile 'junit:junit:3.8.2'
+	 implementation files(fileTree(dir: 'jar_files', includes: ['*.jar']))
  }
- 
-jar { 
-    baseName = 'Exam1' 
-    version = '1.0' 
-}
 
-test {
-    filter {
-        includeTestsMatching "*Test"
-    }
-}
+ jar { 
+     baseName = 'Exam1' 
+     version = '1.0' 
+ }
+
+ test {
+     filter {
+         includeTestsMatching "*Test"
+     }
+ }
+
+ pmd {
+     toolVersion = '6.8.0'
+     ruleSetFiles = files("pmd.xml")
+ }
